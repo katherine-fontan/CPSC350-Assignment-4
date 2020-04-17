@@ -1,5 +1,5 @@
 #include "ListNode.h"
-#include <iostram>
+#include <iostream>
 using namespace std;
 
 template <typename T>
@@ -58,7 +58,7 @@ void DLinkedList<T>::insertFront(T d){
   else{
     node -> next = front;
     front->prev = node;
-    fron = node;
+    front = node;
   }
 
   size++;
@@ -93,12 +93,12 @@ T DLinkedList<T>::removeFront(){
   if(isEmpty())
     return NULL;
 
-  LisNode<T> *node = front;
+  ListNode<T> *node = front;
 
   T temp = front->data;
   if(front->next != NULL){
     front->prev = NULL;
-    front = front->next
+    front = front->next;
   }
   node->next = NULL;
   delete node;
@@ -112,7 +112,7 @@ T DLinkedList<T>::removeBack(){
   if(isEmpty())
     return NULL;
 
-  LisNode<T> *node = back;
+  ListNode<T> *node = back;
 
   T temp = back->data;
 
@@ -153,9 +153,9 @@ T DLinkedList<T>::remove(T d){
   curr->prev = NULL;
   T temp = curr->date;
   size--;
-  delete current;
+  delete curr;
 
-  return remp;
+  return temp;
 }
 
 template <typename T>
