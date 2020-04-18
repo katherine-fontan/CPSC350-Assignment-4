@@ -98,7 +98,7 @@ T DLinkedList<T>::removeFront(){
   T temp = front->data;
   if(front->next != NULL){
     front->prev = NULL;
-    front = front->next; 
+    front = front->next;
   }
   node->next = NULL;
   delete node;

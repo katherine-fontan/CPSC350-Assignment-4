@@ -2,12 +2,6 @@
 Student registrar
 Assignment 4
 
-Krystal Flores
-2328198
-kflores@chapman.edu
-
-&
-
 Katherine Fontan
 2290561
 luzfonta@chapman.edu
