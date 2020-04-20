@@ -13,6 +13,8 @@
     int timeNeeded;
     int waitTime;
     bool atWindow;
+    int timeLeave;
+    int windowNumber;
 
 
  };

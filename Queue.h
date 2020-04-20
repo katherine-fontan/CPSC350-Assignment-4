@@ -3,10 +3,10 @@
 using namespace std;
 
 template<typename T>
-class Queue{
+class GenQueue{
   public:
-    Queue();
-    ~Queue();
+    GenQueue();
+    ~GenQueue();
 
     void insert(T d);
     T remove();
@@ -19,22 +19,22 @@ class Queue{
 };
 
 template<typename T>
-Queue<T>::Queue(){
+GenQueue<T>::GenQueue(){
   myQueue = new DLinkedList<T>();
 }
 
 template<typename T>
-Queue<T>::~Queue(){
+GenQueue<T>::~GenQueue(){
   delete myQueue;
 }
 
 template<typename T>
-void Queue<T>::insert(T d){
+void GenQueue<T>::insert(T d){
   myQueue->insertBack(d);
 }
 
 template<typename T>
-T Queue<T>::remove(){
+T GenQueue<T>::remove(){
   if(myQueue->isEmpty())
     return NULL;
 
@@ -42,19 +42,19 @@ T Queue<T>::remove(){
 }
 
 template<typename T>
-T Queue<T>::peek(){
+T GenQueue<T>::peek(){
 
   return myQueue->getFront();
 }
 
 template<typename T>
-int Queue<T>::getSize()
+int GenQueue<T>::getSize()
 {
   return myQueue->getSize();
 }
 
 template<typename T>
-bool Queue<T>::isEmpty(){
+bool GenQueue<T>::isEmpty(){
 
   return myQueue->isEmpty();
 }

@@ -14,3 +14,6 @@ http://www.cplusplus.com/forum/beginner/71319/
 
 - Queue
 https://www.geeksforgeeks.org/queue-linked-list-implementation/
+
+- Compare function
+http://www.cplusplus.com/reference/cstdlib/qsort/
