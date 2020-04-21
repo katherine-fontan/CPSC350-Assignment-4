@@ -100,7 +100,7 @@ void Simulation::runSimulation(string fName){
 
         getline(file,line);
         int studentsArrived = stoi(line); //number of students that arrived at that time
-        
+
         totalStudents += studentsArrived; //add to the total number of students
 
         for(int i = 0; i < studentsArrived; ++i){

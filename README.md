@@ -25,5 +25,6 @@ terminate called after throwing an instance of 'std::invalid_argument'
   what():  stoi
 Aborted
 
+I also referenced code for list node, linked list and queue from lectures. Also, the implementation of the classes is within the header files becasue of generics and Simulation was for consistency purposes.
 
-to run g++ *.cpp && ./a.out fileName.txt
+to run i used g++ *.cpp && ./a.out fileName.txt OR  you can use makefile to run.
