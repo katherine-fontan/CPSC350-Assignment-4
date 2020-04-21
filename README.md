@@ -6,6 +6,7 @@ Katherine Fontan
 2290561
 luzfonta@chapman.edu
 
+This assignment simulated a registrar's office and calculates metrics on student wait times and window idle times given a specific traffic flow of students.
 
 - Doubly Linked List:
 https://programmercave0.github.io/blog/2017/07/28/C++-Doubly-Linked-List-using-Template-(Data-Structure)
@@ -17,3 +18,5 @@ https://www.geeksforgeeks.org/queue-linked-list-implementation/
 
 - Compare function
 http://www.cplusplus.com/reference/cstdlib/qsort/
+
+to run g++ *.cpp && ./a.out fileName.txt
