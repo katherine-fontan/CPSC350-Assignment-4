@@ -74,7 +74,8 @@ void Simulation::runSimulation(string fName){
 
 
   string line; // line of the file
-  getline(file,line); // get first line
+
+  getline(file,line); // get first line  of file and assign that to the number of windows
   numWindows = stoi(line); // convert the string from file to int
 
 
@@ -91,26 +92,30 @@ void Simulation::runSimulation(string fName){
 
   totalStudents = 0;
 
+// loop to read data and assign the data to the correct variables
   while(getline(file, line)){
-    int arriveAt = stoi(line);
 
-    getline(file,line);
+      //second line of file arrival time
+        int arriveAt = stoi(line);//covert to int
 
-    int studentsArrived = stoi(line);
+        getline(file,line);
+        int studentsArrived = stoi(line); //number of students that arrived at that time
+        
+        totalStudents += studentsArrived; //add to the total number of students
 
-    totalStudents += studentsArrived;
+        for(int i = 0; i < studentsArrived; ++i){
 
-    for(int i = 0; i < studentsArrived; ++i){
-      getline(file,line);
-      int timeNeeded = stoi(line);
+            getline(file,line);
+            int timeNeeded = stoi(line);
 
-      Student *s = new Student(arriveAt, timeNeeded); // create a student object for every student that has arrived
+            Student *s = new Student(arriveAt, timeNeeded); // create a student object for every student that has arrived
 
-      //insert student on Queue
+            //insert student on Queue
+            studentQueue->insert(s);
+        }
 
-      studentQueue->insert(s);
-    }
   }
+
 
   //list of students that have been helped to keep track for later calculations
 

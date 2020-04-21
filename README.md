@@ -19,4 +19,11 @@ https://www.geeksforgeeks.org/queue-linked-list-implementation/
 - Compare function
 http://www.cplusplus.com/reference/cstdlib/qsort/
 
+if there is not enough data in the file for the number of students, lets say 5 students arrived, but the next following lines only represent the arrival time for 4/5 students, the program throws in the following error and aborts this occurs because it tries to convert something from string to int that doesn't exist.
+
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
+Aborted
+
+
 to run g++ *.cpp && ./a.out fileName.txt
