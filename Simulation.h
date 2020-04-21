@@ -35,10 +35,10 @@ class Simulation{
     int longestIdleTime();
     int studentsWaitingTen();
 
-
     int idleTimes;
     int numWindows;
     int totalStudents;
+    int currentTime;
     int *idleTimesArray;
     int *waitTimeArray;
 
@@ -74,10 +74,10 @@ void Simulation::runSimulation(string fName){
 
 
   string line; // line of the file
-
   getline(file,line); // get first line
-
   numWindows = stoi(line); // convert the string from file to int
+
+
 
   //create an array of windows
 
@@ -116,83 +116,84 @@ void Simulation::runSimulation(string fName){
 
     DLinkedList<Student*>  *studentsHelped = new DLinkedList<Student*>();
 
-    int currentTime = 0;
+    currentTime = 0;
 
     idleTimes = 0;
     bool windowsFull;
     int totalWindowsFull;
 
-    //num simulation until both line are empty and all windows are empty
+    //run simulation until both line are empty and all windows are empty
 
-    while(!(studentQueue->isEmpty())|| totalWindowsFull !=0){
-      totalWindowsFull = 0;
-      windowsFull = false;
+    while(!(studentQueue->isEmpty()) || (totalWindowsFull != 0)) {
+  		totalWindowsFull = 0;
+  		windowsFull = false;
 
-      for (int i = 0; i < numWindows; ++i){
-        if(windows[i] != 0 ){
-          windows[i] -= 1; //for each clock tick, decrement time remaining at window if the windows are full
+  		for(int i = 0; i < numWindows; ++i) {
+  			if(windows[i] != 0) {
+  				windows[i] -= 1; //for each clock tick, decrement time remaining at window if the windows are full
 
-          if(windows[i] !=0)
-            totalWindowsFull++; // if the window is still full, increment
+          if(windows[i] != 0)
+  					totalWindowsFull++; // if the window is still full, increment
 
-        }
-      }
+  			}
+  		}
 
-      if(totalWindowsFull == numWindows){
-        windowsFull = true;
-      }
+  		if(totalWindowsFull == numWindows) {
+  			windowsFull = true;
+  		}
 
-// check to see if there are still student in line
-      if(!(studentQueue->isEmpty())){
+    // check to see if there are still student in line
+  		if(!(studentQueue->isEmpty())) {
 
         //while students are stil in line and the current time of arrival is the arrival time of the next student
         //and there is a window available, send student to window
 
-        while(!(studentQueue->isEmpty()) && (currentTime >= studentQueue->peek()->arrivalTime) && !totalWindowsFull){
-          for(int i = 0; numWindows; ++i){
-            if(windows[i] == 0){
-              windows[i] = studentQueue->peek()->timeNeeded;
-              studentQueue->peek()->timeLeave = currentTime;
-              studentQueue->peek()->atWindow = true;
 
-              //keep track of what window student went in
-              studentQueue->peek()->windowNumber = i;
+      			while(!(studentQueue->isEmpty()) && (currentTime >= studentQueue->peek()->arrivalTime) && !windowsFull) {
 
-              totalWindowsFull++; // make the window full once the student is send to that window
+      				for(int i = 0; i < numWindows; ++i) {
+      					if(windows[i] == 0) {
+      						windows[i] = studentQueue->peek()->timeNeeded;
+      						studentQueue->peek()->timeLeave = currentTime;
 
-              break;
+      						//keep track of what window student went in
+      						studentQueue->peek()->windowNumber = i;
 
-
-            }
-          }
-
-          //remove student from line since it was already helped, add that to the list of student helped.
-          studentsHelped->insertBack(studentQueue->remove());
-
-          //check if windows are full in case the nest sutdnet in line has same arrival time
-          if(totalWindowsFull == numWindows)
-            windowsFull = true;
-
-        }
-
-        //increment wait time of student still in line
-        if((currentTime >= studentQueue->peek()->arrivalTime) && windowsFull)
-          studentQueue->peek()->waitTime += 1;
+      						totalWindowsFull++;  // make the window full once the student is send to that window
 
 
-      }
-      //if amy of the windows are empty, increment the idle time counter
-      for(int i = 0; i< numWindows; ++i){
-        if(windows[i]==0){
-          idleTimes++;
+                  break;
+      					}
+      				}
+
+      			//remove student from line since it was already helped, add that to the list of student helped.
+      				studentsHelped->insertBack(studentQueue->remove());
+
+      				  //check if windows are full in case the nest sutdnet in line has same arrival time
+      				if(totalWindowsFull == numWindows)
+      					windowsFull = true;
+
+      			}
 
 
-        }
-      }
-      currentTime++;
+      			//increment wait time of student still in line
+      			if((currentTime >= studentQueue->peek()->arrivalTime) && windowsFull)
+      				studentQueue->peek()->waitTime += 1;
+
+  		}
+
+  		//if any of the windows are empty, increment the idle time counter
+  		for(int i = 0; i < numWindows; ++i) {
+  			if(windows[i] == 0)
+  				idleTimes++;
+
+  		}
+
+  		currentTime++;
+
+  	}//END of simulation
 
 
-    }//END of simulation
 
     //calculate metrics
     idleTimesArray = new int[numWindows]; // initialize idle time array to help with calculations later on
@@ -216,19 +217,20 @@ void Simulation::runSimulation(string fName){
 
       student = studentsHelped->removeFront();
 
-      //fill wait time array
-      int studentWindowNumber = student->windowNumber;
+
 
       //idle time for each window =  total time of simulation - time that student was at the window
       for(int i = 0; i<numWindows; ++i){
-        idleTimesArray[i] -= student->timeNeeded;
+
+        if(student->windowNumber == i)
+          idleTimesArray[i] -= student->timeNeeded;
       }
     }
 
     //fill wait time array with the times of each student
     for(int i=0; i<totalStudents; ++i){
       if(i == (studentsHelped->getSize())){
-        waitTimeArray[i] = student ->waitTime;
+        waitTimeArray[i] = student->waitTime;
       }
     }
 
@@ -243,25 +245,25 @@ void Simulation::runSimulation(string fName){
 
 void Simulation::printStatistics(){
 
-  cout<<"The following statistics were calculated based on the simulation: \n"<<endl;
+  cout<<"\nThe following statistics were calculated based on the simulation: \n"<<endl;
 
   cout<< "1. The mean student wait time: ";
-  cout<< meanWaitTime()<< "\n"<<endl;
+  cout<< meanWaitTime()<<endl;
 
   cout<< "2. The median student wait time: ";
-  cout<< medianWaiTime()<< "\n"<<endl;
+  cout<< medianWaiTime()<<endl;
 
   cout << "3. The longest student wait time: ";
-  cout << longestWaitTime()<< "\n"<<endl;
+  cout << longestWaitTime()<<endl;
 
   cout<<  "4. The number of students waiting over 10 minutes: ";
-  cout << studentsWaitingTen()<< "\n" << endl;
+  cout << studentsWaitingTen() << endl;
 
   cout<< "5. The mean window idle time: ";
-  cout << meanWindowIdleTime() << "\n"<< endl;
+  cout << meanWindowIdleTime()<< endl;
 
   cout<< "6. The longest window idle time: ";
-  cout<< longestIdleTime()<< "\n"<< endl;
+  cout<< longestIdleTime()<< endl;
 
   cout << "7. Number of windows idle for over 5 minutes: ";
   cout << numberOfWindowIdleFive() << "\n "<<  endl;
@@ -271,9 +273,9 @@ void Simulation::printStatistics(){
 double Simulation:: meanWaitTime(){
 
 // calculate mean student wait time 1.
-  int sumWaitTimes = 0;
+  double sumWaitTimes = 0;
   for(int i = 0; i< totalStudents; ++i){
-    sumWaitTimes + waitTimeArray[i];
+    sumWaitTimes += waitTimeArray[i];
   }
   double meanStudentWaitTime = (double) sumWaitTimes/totalStudents;
 
@@ -335,6 +337,7 @@ double Simulation::meanWindowIdleTime(){
   //calculate mean winow idle time 5.
 
    double meanWindowIdleTime = (double)idleTimes/numWindows;
+
    return meanWindowIdleTime;
 }
 
@@ -345,7 +348,7 @@ int Simulation::longestIdleTime(){
   int longestIdleTime = 0;
 
   for(int i = 0; i < numWindows; ++i){
-    if(idleTimesArray[i]> longestIdleTime){
+    if(idleTimesArray[i] > longestIdleTime){
       longestIdleTime = idleTimesArray[i];
 
     }
@@ -366,77 +369,3 @@ int Simulation::numberOfWindowIdleFive(){
 
   return numWindowsIdleFive;
 }
-
-
-
-/*//reading file and getting the necessary information
-void Simulation::readFile(string fName){
-
-  fstream inputFile;
-
-  //inputFile.open(file);
-
-  string fileInfo;
-  int lineNumber;
-
-  studentQueue = new Queue<Student*>();
-
-  if(inputFile.is_open()){
-    //get number of windows
-    getline(inputFile, fileInfo);
-
-    windowsAvailable = stoi(fileInfo); //converting string to int
-
-    windows = new Window[windowsAvailable];
-
-    for(int i = 0; i<windowsAvailable; ++i){
-        Window *w = new Window();
-        widows[i] = w;
-    }
-    lineNumber++;
-
-    //student information
-    while(getline(inputFile, fileInfo)){
-      arrivedAt = stoi(fileInfo);
-
-      getline(inputFile,fileInfo);
-
-      numCurrentStudents = stoi(fileInfo);
-
-      totalStudents += numCurrentStudents;
-
-      //loop to create new students
-
-      for(int i=0; i<numCurrentStudents; ++i){
-        getline(inputFile,fileInfo);
-        timeNeed = stoi(fileInfo);
-
-        //initialize each student with their arrival time and time they need
-        Student *student = new Student(arrivedAt, timeNeed);
-
-        //insert student in Queue
-        studentQueue->insert(student);
-      }
-    }//end of while
-
-  }
-
-}
-
-void Simulation::clock(int t){
-  for(int i = 0; i<windowsAvailable; ++i){
-    if(!windows[i]->empty){
-      windows[i]->idleTime--;
-      //decreases when there is a student
-    }
-    else
-      windows[i]->idleTime++;
-      //idle time increases where there is no student
-  }
-
-  if(!studentQueue.isEmpty()){
-    //create pointer to current students
-
-    //ListNode<Student*> *curr = studentQueue.front;
-  }
-}*/
