@@ -10,6 +10,7 @@ class Window{
     ~Window();
 
     int idleTime;
+    int timeAtWindow;
     bool empty;
 
 };
@@ -17,6 +18,7 @@ class Window{
 Window::Window(){
   idleTime = 0;
   empty = true;
+  timeAtWindow = 0;
 }
 
 Window::~Window(){}

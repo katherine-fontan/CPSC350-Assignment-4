@@ -14,6 +14,7 @@ Student::Student(){
  Student::Student(int arrival, int timeAtWindow){
    arrivalTime = arrival;
    timeNeeded = timeAtWindow;
+   waitTime = 0;
 
  }
  Student::~Student(){}
