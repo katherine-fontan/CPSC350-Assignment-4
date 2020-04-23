@@ -184,13 +184,9 @@ void Simulation::runSimulation(string fName){
 
       						totalWindowsFull++;  // make the window full once the student is send to that window
 
-
                   break;
       					}
-                else{
-                  sumWaitTimes++;
 
-                }
       				}
 
       			//remove student from line since it was already helped, add that to the list of student helped.
@@ -202,7 +198,8 @@ void Simulation::runSimulation(string fName){
 
 
               //increment wait time for next student
-              studentQueue->peek()->waitTime = sumWaitTimes + 1;
+              //wait time is going to be the total wait time now
+              studentQueue->peek()->waitTime = sumWaitTimes;
 
               sumWaitTimes++; // increment the total wait times
 
@@ -269,9 +266,12 @@ void Simulation::printStatistics(){
 
 }
 double Simulation:: meanWaitTime(){
-
+  int sum = 0;
+  for(int i = 0; i < totalStudents; ++i){
+    sum += waitTimeArray[i];
+  }
   // calculate mean student wait time 1.
-  double meanStudentWaitTime = (double) sumWaitTimes/totalStudents;
+  double meanStudentWaitTime = (double) sum/totalStudents;
   return meanStudentWaitTime;
 }
 
