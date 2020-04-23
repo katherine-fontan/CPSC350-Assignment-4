@@ -187,6 +187,7 @@ void Simulation::runSimulation(string fName){
                   break;
       					}
 
+
       				}
 
       			//remove student from line since it was already helped, add that to the list of student helped.
@@ -198,10 +199,10 @@ void Simulation::runSimulation(string fName){
 
 
               //increment wait time for next student
-              //wait time is going to be the total wait time now
+              //wait time for this student is going to be the total wait time of the simulation until now
               studentQueue->peek()->waitTime = sumWaitTimes;
 
-              sumWaitTimes++; // increment the total wait times
+              sumWaitTimes++; // increment the total wait time
 
       				  //check if windows are full in case the nest sutdnet in line has same arrival time
       				if(totalWindowsFull == numWindows){
@@ -266,12 +267,12 @@ void Simulation::printStatistics(){
 
 }
 double Simulation:: meanWaitTime(){
-  int sum = 0;
+  int totalWait = 0;
   for(int i = 0; i < totalStudents; ++i){
-    sum += waitTimeArray[i];
+    totalWait += waitTimeArray[i];
   }
   // calculate mean student wait time 1.
-  double meanStudentWaitTime = (double) sum/totalStudents;
+  double meanStudentWaitTime = (double) totalWait/totalStudents;
   return meanStudentWaitTime;
 }
 
